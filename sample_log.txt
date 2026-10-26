@@ -1,0 +1,17 @@
+2026-10-20T08:14:02.1180000Z ##[group]Run actions/checkout@v4
+2026-10-20T08:14:03.4120000Z Syncing repository: acme/payments-service
+2026-10-20T08:14:05.0010000Z ##[endgroup]
+2026-10-20T08:14:05.2200000Z ##[group]Run aws-actions/configure-aws-credentials@v4
+2026-10-20T08:14:05.2210000Z with:
+2026-10-20T08:14:05.2211000Z   role-to-assume: arn:aws:iam::123456789012:role/github-ci-deploy
+2026-10-20T08:14:05.2212000Z   aws-access-key-id: AKIAIOSFODNN7EXAMPLE
+2026-10-20T08:14:06.8800000Z Assumed role arn:aws:iam::123456789012:role/github-ci-deploy
+2026-10-20T08:14:06.8810000Z ##[endgroup]
+2026-10-20T08:14:07.0000000Z ##[group]Run docker build -t payments-service:latest .
+2026-10-20T08:14:41.5000000Z Successfully built 3f1a9c2b7d10
+2026-10-20T08:14:41.5100000Z ##[endgroup]
+2026-10-20T08:14:41.7000000Z ##[group]Run docker push 123456789012.dkr.ecr.eu-west-1.amazonaws.com/payments-service:latest
+2026-10-20T08:14:42.3000000Z The push refers to repository [123456789012.dkr.ecr.eu-west-1.amazonaws.com/payments-service]
+2026-10-20T08:14:43.1000000Z 5f70bf18a086: Preparing
+2026-10-20T08:14:43.9000000Z An error occurred (AccessDeniedException) when calling the BatchCheckLayerAvailability operation: User: arn:aws:sts::123456789012:assumed-role/github-ci-deploy/GitHubActions is not authorized to perform: ecr:BatchCheckLayerAvailability on resource: arn:aws:ecr:eu-west-1:123456789012:repository/payments-service with an explicit deny in a service control policy: arn:aws:organizations::111122223333:policy/o-abc123def4/service_control_policy/p-9k2m7x1q
+2026-10-20T08:14:43.9100000Z ##[error]Process completed with exit code 1.

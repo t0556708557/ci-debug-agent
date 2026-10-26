@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Docker push to ECR denied by IAM or SCP",
+    "error_signature": "AccessDeniedException ecr:BatchCheckLayerAvailability explicit deny in a service control policy, docker push failed",
+    "root_cause": "An AWS Organizations service control policy has an explicit deny for the ECR action. SCPs only restrict permissions, they never grant them, and the IAM role also needs its own allow.",
+    "fix": "Remove or narrow the deny statement in the SCP, then confirm the role used by the pipeline has an IAM policy that allows the ECR actions on the repository."
+  },
+  {
+    "title": "npm ci fails because package-lock.json is out of sync",
+    "error_signature": "npm ci can only install packages when your package.json and package-lock.json are in sync, missing from lock file",
+    "root_cause": "A dependency was added or changed in package.json without regenerating package-lock.json, and npm ci refuses to modify the lockfile.",
+    "fix": "Run npm install locally, commit the updated package-lock.json, and keep the Node and npm versions the same locally and in CI."
+  },
+  {
+    "title": "pytest fails with ModuleNotFoundError in CI",
+    "error_signature": "ModuleNotFoundError No module named, pytest collection error, ImportError while importing test module",
+    "root_cause": "The package is not installed in the CI environment, or the project is not installed in editable mode so the tests cannot import the source code.",
+    "fix": "Add the missing dependency to requirements, install the project with pip install -e . before running pytest, and make sure the workflow uses the same Python version as local development."
+  },
+  {
+    "title": "Terraform fails to acquire the state lock",
+    "error_signature": "Error acquiring the state lock, ConditionalCheckFailedException, Lock Info ID",
+    "root_cause": "A previous Terraform run crashed or is still running and left a lock in the DynamoDB table, so the new run cannot take the lock.",
+    "fix": "Check that no other run is active, then release the lock with terraform force-unlock using the lock ID from the message. Add a concurrency group in the workflow to prevent overlapping runs."
+  },
+  {
+    "title": "Docker build fails because a file is not found in the build context",
+    "error_signature": "COPY failed: file not found in build context or excluded by .dockerignore",
+    "root_cause": "The file referenced by COPY is outside the build context, has a different path or case, or is excluded by .dockerignore.",
+    "fix": "Check the path and case, confirm the build context directory in the workflow, and remove the file from .dockerignore if it is excluded by mistake."
+  }
+]
